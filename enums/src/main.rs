@@ -75,8 +75,8 @@ fn main() {
     let maybe_num_plus1 = plus_one(maybe_num);
     let none = plus_one(None);
 
-    let value = SomeValue::Num(3);
-    match value {
+    let some_value = SomeValue::Num(3);
+    match some_value {
         SomeValue::IpAddressKind(_) => {
             println!("Ip Address found")
         },
@@ -84,4 +84,24 @@ fn main() {
             println!("Other value found");
         }
     }
+
+    if let SomeValue::IpAddressKind(_) = some_value {
+        println!("Ip Address found");
+        return;
+    }
+
+    let some_num = if let SomeValue::Num(num) = some_value {
+        num
+    } else {
+        println!("Found non num value");
+        return;
+    };
+
+    println!("Some num {some_num}");
+
+    let SomeValue::Num(some_num) = some_value else {
+        return;
+    };
+
+    println!("Some num {some_num}");
 }
