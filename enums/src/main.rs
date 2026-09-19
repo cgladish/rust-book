@@ -25,6 +25,19 @@ impl IpAddressKind {
     }
 }
 
+fn plus_one(num: Option<i32>) -> Option<i32> {
+    match num {
+        Some(num) => Some(num + 1),
+        None => None
+    }
+}
+
+enum SomeValue {
+    IpAddressKind(IpAddressKind),
+    String(String),
+    Num(i32)
+}
+
 fn main() {
     let ipv4 = IpAddressKind::V4(Ipv4Address {
         address: (1, 2, 3, 4)
@@ -56,6 +69,19 @@ fn main() {
         }
         None => {
             println!("Num has no value");
+        }
+    }
+
+    let maybe_num_plus1 = plus_one(maybe_num);
+    let none = plus_one(None);
+
+    let value = SomeValue::Num(3);
+    match value {
+        SomeValue::IpAddressKind(_) => {
+            println!("Ip Address found")
+        },
+        _ => {
+            println!("Other value found");
         }
     }
 }
