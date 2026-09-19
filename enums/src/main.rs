@@ -19,12 +19,8 @@ impl IpAddressKind {
                 let (a, b, c, d) = ip.address;
                 format!("{a}.{b}.{c}.{d}")
             }
-            IpAddressKind::V6(ip) => {
-                ip.address.clone()
-            }
-            IpAddressKind::Other(ip) => {
-                ip.clone()
-            }
+            IpAddressKind::V6(ip) => ip.address.clone(),
+            IpAddressKind::Other(ip) => ip.clone()
         }
     }
 }
