@@ -1,4 +1,5 @@
 use std::iter::FromIterator;
+use std::ops::Deref;
 
 fn main() {
     let mut list = SinglyLinkedList::new();
@@ -16,6 +17,14 @@ fn main() {
     for val in list.iter() {
         println!("{val}");
     }
+
+
+    let custom_boxed_str = MyBox(String::from("chika chika Slim Shady"));
+    hello(&custom_boxed_str); // Double deref coercion
+
+    std::mem::drop(custom_boxed_str);
+
+    println!("Goodbye!");
 }
 
 struct Node {
@@ -57,4 +66,30 @@ impl<'a> Iterator for SinglyLinkedListIter<'a> {
         self.next = node.next.as_deref();
         Some(node.value)
     }
+}
+
+struct MyBox<T>(T);
+
+impl<T> MyBox<T> {
+    fn new(x: T) -> MyBox<T> {
+        MyBox(x)
+    }
+}
+
+impl<T> Deref for MyBox<T> {
+    type Target = T;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl<T> Drop for MyBox<T> {
+    fn drop(&mut self) {
+        println!("I'm going away forever!");
+    }
+}
+
+fn hello(name: &str) {
+    println!("Hello, {name}");
 }
